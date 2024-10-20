@@ -32,6 +32,7 @@ void *_vector_add(vector *v);
 void *_vector_get(vector *v, size_t index);
 void *_vector_insert(vector *v, size_t index);
 void _vector_remove_at(vector *v, size_t index);
+int _in_bounds(vector *v, size_t index);
 void _resize_if_necessary(vector *v);
 void _vector_resize(vector *v, size_t capacity);
 void _vector_free(vector *v);

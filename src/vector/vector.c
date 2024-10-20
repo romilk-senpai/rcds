@@ -23,10 +23,18 @@ void *_vector_add(vector *v) {
 }
 
 void *_vector_get(vector *v, size_t index) {
+  if (_in_bounds(v, index) == 0) {
+    return NULL;
+  }
+
   return v->data + index * v->element_size;
 }
 
 void *_vector_insert(vector *v, size_t index) {
+  if (_in_bounds(v, index) == 0) {
+    return NULL;
+  }
+
   _resize_if_necessary(v);
 
   memmove(v->data + v->element_size * (index + 1),
@@ -39,11 +47,24 @@ void *_vector_insert(vector *v, size_t index) {
 }
 
 void _vector_remove_at(vector *v, size_t index) {
+  if (_in_bounds(v, index) == 0) {
+    return;
+  }
+
   memmove(v->data + v->element_size * index,
           v->data + v->element_size * (index + 1),
           (v->size - index - 1) * v->element_size);
 
   v->size--;
+}
+
+int _in_bounds(vector *v, size_t index) {
+  if (index > v->size + 1 || index < 0) {
+    fprintf(stderr, "index [%zu] is outside of bounds of the array\n", index);
+    return 0;
+  }
+
+  return 1;
 }
 
 void _resize_if_necessary(vector *v) {
