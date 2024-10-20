@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-vector *vector_create(size_t element_size) {
+vector *_vector_create(size_t element_size) {
   vector *v = malloc(sizeof(vector));
 
   v->element_size = element_size;
@@ -13,11 +13,11 @@ vector *vector_create(size_t element_size) {
   return v;
 }
 
-void *vector_get(vector *v, size_t index) {
+void *_vector_get(vector *v, size_t index) {
   return v->data + index * v->element_size;
 }
 
-void *vector_add(vector *v) {
+void *_vector_add(vector *v) {
   if (v->size == v->capacity) {
     vector_resize(v, v->capacity * 2);
   }
