@@ -3,8 +3,8 @@ dyn:
 static:
 	mkdir -p out/
 	mkdir -p librcds/include/
-	clang -c src/vector/vector.c -o out/vector.o
-	clang -c src/map/map.c -o out/map.o
+	clang -g -c src/vector/vector.c -o out/vector.o
+	clang -g -c src/map/map.c -o out/map.o
 	ar rcs librcds/librcds.a out/vector.o out/map.o
 	yes | cp -rf src/vector/vector.h librcds/include/vector.h
 	yes | cp -rf src/map/map.h librcds/include/map.h
