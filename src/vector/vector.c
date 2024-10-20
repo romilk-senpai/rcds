@@ -3,12 +3,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-vector *_vector_create(size_t element_size) {
+vector *_vector_create(size_t element_size, size_t capacity) {
   vector *v = malloc(sizeof(vector));
 
   v->element_size = element_size;
   v->size = 0;
-  v->capacity = VEC_INITIAL_CAPACITY;
+  v->capacity = capacity;
   v->data = malloc(element_size * v->capacity);
 
   return v;
