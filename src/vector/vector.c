@@ -62,5 +62,3 @@ void _vector_free(vector *v) {
   free(v->data);
   free(v);
 }
-
-
