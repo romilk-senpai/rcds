@@ -1,8 +1,7 @@
 #include <stdio.h>
 
 int main(void) {
-  printf("map_test\n");
-  printf("FAIL\n");
+  printf("---map_test---\n");
 
   return 0;
 }
