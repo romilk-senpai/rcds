@@ -35,7 +35,7 @@ int main(void) {
   print_int_vec(v1);
 
   vector_remove_at(v1, 0);
-  vector_remove_at(v1, 11);
+  vector_remove_at(v1, 10);
 
   print_int_vec(v1);
 

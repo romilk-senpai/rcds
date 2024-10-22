@@ -59,7 +59,7 @@ void _vector_remove_at(vector *v, size_t index) {
 }
 
 int _in_bounds(vector *v, size_t index) {
-  if (index > v->size + 1 || index < 0) {
+  if (index > v->size - 1 || index < 0) {
     fprintf(stderr, "index [%zu] is outside of bounds of the array\n", index);
     return 0;
   }
