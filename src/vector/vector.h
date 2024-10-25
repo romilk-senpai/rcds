@@ -29,8 +29,6 @@ typedef struct {
 
 #define vector_free(v) ({ _vector_free(v); })
 
-#define vector_print(v) ({ _vector_print(v); })
-
 vector *_vector_create(size_t element_size, size_t capacity);
 void *_vector_add(vector *v);
 void *_vector_get(vector *v, size_t index);
