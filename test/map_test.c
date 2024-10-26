@@ -31,7 +31,7 @@ uint32_t string_hash(void *key) {
 }
 
 void read_set1() {
-  hash_map *map = hash_map_create(10, string_hash);
+  hash_map *map = hash_map_create_cap(30, string_hash);
 
   FILE *file = fopen("out/test/map_test_set1.txt", "rb");
   if (file == NULL) {
@@ -49,7 +49,7 @@ void read_set1() {
       buf[buf_index] = '\0';
       char *key = strdup(buf);
       if (hash_map_contains(map, key) == 0) {
-        hash_map_set(map, key, 0);
+        hash_map_set(map, key, 1);
       } else {
         int val = hash_map_get(map, int, key);
         hash_map_set(map, key, val + 1);
@@ -67,7 +67,7 @@ void read_set1() {
     buf[buf_index] = '\0';
     char *key = strdup(buf);
     if (hash_map_contains(map, key) == 0) {
-      hash_map_set(map, key, 0);
+      hash_map_set(map, key, 1);
     } else {
       int val = hash_map_get(map, int, key);
       hash_map_set(map, key, val + 1);
@@ -78,7 +78,15 @@ void read_set1() {
 
   if (hash_map_contains(map, "banana") == 1) {
     int val = hash_map_get(map, int, "banana");
-    printf("%s: %d", "banana", val);
+    printf("%s: %d\n", "banana", val);
+  }
+  if (hash_map_contains(map, "lemon") == 1) {
+    int val = hash_map_get(map, int, "lemon");
+    printf("%s: %d\n", "lemon", val);
+  }
+  if (hash_map_contains(map, "watermelon") == 1) {
+    int val = hash_map_get(map, int, "watermelon");
+    printf("%s: %d\n", "watermelon", val);
   }
 
   free(buf);
