@@ -11,15 +11,14 @@ hash_map *_hash_map_create(size_t capacity, hash_provider hash_provider) {
   return map;
 }
 
-void *_hash_map_set(hash_map *map, void *key_obj) {
+void **_hash_map_set(hash_map *map, void *key_obj) {
   uint32_t hash = map->hash_provider(key_obj);
   size_t index = hash & (map->capacity - 1);
-  printf("%s, %zu", (char *)key_obj, index);
 
   key_value_pair *ptr = *(map->data + index);
   while (ptr != NULL) {
     if (map->hash_provider(ptr->key) == map->hash_provider(key_obj)) {
-      return (ptr)->value;
+      return &(ptr)->value;
     }
     ptr = ptr->next;
   }
@@ -30,7 +29,7 @@ void *_hash_map_set(hash_map *map, void *key_obj) {
   *(map->data + index) = new_pair;
   map->size++;
 
-  return new_pair->value;
+  return &new_pair->value;
 }
 
 void *_hash_map_get(hash_map *map, void *key_obj) {

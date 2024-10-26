@@ -26,11 +26,18 @@ typedef struct {
   hash_provider hash_provider;
 } hash_map;
 
-#define hash_map_create(capacity, hash_provider)                               \
+#define hash_map_create(hash_provider)                                         \
+  ({ _hash_map_create(MAP_INITIAL_CAPACITY, hash_provider); })
+
+#define hash_map_create_cap(capacity, hash_provider)                           \
   ({ _hash_map_create(capacity, hash_provider); })
 
 #define hash_map_set(map, key_obj, item)                                       \
-  ({ *(typeof(item) *)_hash_map_set(map, key_obj) = item; })
+  ({                                                                           \
+    void **ptr = _hash_map_set(map, key_obj);                                  \
+    *ptr = realloc(*ptr, sizeof(typeof(item) *));                              \
+    *(typeof(item) *)(*ptr) = item;                                            \
+  })
 
 #define hash_map_get(map, val_type, key_obj)                                   \
   ({ *(val_type *)_hash_map_get(map, key_obj); })
@@ -40,7 +47,7 @@ typedef struct {
 #define hash_map_free(map) ({ _hash_map_free(map); })
 
 hash_map *_hash_map_create(size_t capacity, hash_provider hash_provider);
-void *_hash_map_set(hash_map *map, void *key_obj);
+void **_hash_map_set(hash_map *map, void *key_obj);
 void *_hash_map_get(hash_map *map, void *key_obj);
 int _hash_map_contains(hash_map *map, void *key_obj);
 void _hash_map_free(hash_map *map);
