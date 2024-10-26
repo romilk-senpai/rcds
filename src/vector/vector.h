@@ -18,12 +18,12 @@ typedef struct {
 #define vector_create_cap(type, capacity)                                      \
   ({ _vector_create(sizeof(type), capacity); })
 
-#define vector_add(v, type, item) ({ *(type *)_vector_add(v) = item; })
+#define vector_add(v, item) ({ *(typeof(item) *)_vector_add(v) = item; })
 
 #define vector_get(v, type, index) ({ *(type *)_vector_get(v, index); })
 
-#define vector_insert_at(v, type, index, item)                                 \
-  ({ *(type *)_vector_insert(v, index) = item; })
+#define vector_insert_at(v, index, item)                                       \
+  ({ *(typeof(item) *)_vector_insert(v, index) = item; })
 
 #define vector_remove_at(v, index) ({ _vector_remove_at(v, index); })
 
