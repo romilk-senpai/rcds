@@ -25,6 +25,7 @@ void **_hash_map_set(hash_map *map, void *key_obj) {
 
   key_value_pair *new_pair = malloc(sizeof(key_value_pair));
   new_pair->key = key_obj;
+  new_pair->value = NULL;
   new_pair->next = *(map->data + index);
   *(map->data + index) = new_pair;
   map->size++;
