@@ -1,3 +1,3 @@
-apple banana cherry apple elderberry fig grape mango kiwi 
-lemon mango nectarine orange papaya quince raspberry 
-strawberry kiwi tangerine orange watermelon zucchini
+apple banana lemon apple lemon strawberry grape banana kiwi 
+lemon banana nectarine orange papaya quince raspberry 
+strawberry kiwi tangerine orange watermelon banana
