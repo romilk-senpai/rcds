@@ -12,8 +12,9 @@ typedef struct {
 } map_str;
 
 typedef struct {
-  map_str key;
+  void *key;
   void *value;
+  int occupied;
 } key_value_pair;
 
 typedef uint32_t (*hash_provider)(void *);
