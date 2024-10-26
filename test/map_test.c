@@ -11,7 +11,6 @@ int main(void) {
   printf("---map_test---\n");
 
   read_set1();
-  read_set2();
 
   printf("---map_test---\n");
   return 0;
@@ -31,7 +30,7 @@ uint32_t string_hash(void *key) {
 }
 
 void read_set1() {
-  hash_map *map = hash_map_create_cap(30, string_hash);
+  hash_map *map = hash_map_create(string_hash);
 
   FILE *file = fopen("out/test/map_test_set1.txt", "rb");
   if (file == NULL) {
@@ -78,19 +77,17 @@ void read_set1() {
 
   if (hash_map_contains(map, "banana") == 1) {
     int val = hash_map_get(map, int, "banana");
-    printf("%s: %d\n", "banana", val);
+    printf("%s: %d\n", "banana", val); // expect 4
   }
   if (hash_map_contains(map, "lemon") == 1) {
     int val = hash_map_get(map, int, "lemon");
-    printf("%s: %d\n", "lemon", val);
+    printf("%s: %d\n", "lemon", val); // expect 3
   }
   if (hash_map_contains(map, "watermelon") == 1) {
     int val = hash_map_get(map, int, "watermelon");
-    printf("%s: %d\n", "watermelon", val);
+    printf("%s: %d\n", "watermelon", val); // expect 1
   }
 
   free(buf);
   hash_map_free(map);
 }
-
-void read_set2() {}
