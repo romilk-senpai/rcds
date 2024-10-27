@@ -8,7 +8,7 @@ void print_int_vec(vector *v) {
 
     printf(format, vector_get(v, int, i));
   }
-  printf("] Size: %zu\n", v->size);
+  printf("] Size: %zu; Capacity: %zu\n", v->size, v->capacity);
 }
 
 int main(void) {
