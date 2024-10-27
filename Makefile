@@ -1,7 +1,5 @@
 COMPILER = clang
 
-dyn:
-
 static:
 	mkdir -p out/
 	mkdir -p librcds/include/
