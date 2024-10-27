@@ -7,11 +7,6 @@
 #define MAP_INITIAL_CAPACITY 10
 #define LOAD_FACTOR_THRESHOLD 0.7
 
-typedef struct {
-  char *data;
-  size_t len;
-} map_str;
-
 typedef struct key_value_pair {
   void *key;
   void *value;
