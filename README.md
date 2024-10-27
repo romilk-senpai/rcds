@@ -79,7 +79,7 @@ typedef struct key_value_pair {
 } key_value_pair;
 ```
 
-Fucntors signatures
+Functors signatures
 ```c
 typedef uint32_t (*hash_provider)(void *);
 typedef void (*map_for_each_func)(key_value_pair *value);
