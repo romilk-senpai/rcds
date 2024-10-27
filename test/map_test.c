@@ -29,6 +29,10 @@ uint32_t string_hash(void *key) {
   return hash;
 }
 
+void print_map_kvp(key_value_pair *kvp) {
+  printf("%s: %d\n", (char *)kvp->key, *(int *)kvp->value);
+}
+
 void read_set1() {
   hash_map *map = hash_map_create(string_hash);
 
@@ -77,16 +81,23 @@ void read_set1() {
 
   if (hash_map_contains(map, "banana") == 1) {
     int val = hash_map_get(map, int, "banana");
-    printf("%s: %d\n", "banana", val); // expect 4
+    printf("%s: %d\n", "banana", val); // expect 12
   }
   if (hash_map_contains(map, "lemon") == 1) {
     int val = hash_map_get(map, int, "lemon");
-    printf("%s: %d\n", "lemon", val); // expect 3
+    printf("%s: %d\n", "lemon", val); // expect 9
   }
   if (hash_map_contains(map, "watermelon") == 1) {
     int val = hash_map_get(map, int, "watermelon");
-    printf("%s: %d\n", "watermelon", val); // expect 1
+    printf("%s: %d\n", "watermelon", val); // expect 3
   }
+
+  printf("-------------");
+
+  hash_map_for_each(map, print_map_kvp);
+
+  printf("Size: %zu; Capacity: %zu\n", map->size,
+         map->capacity); // expect 13/20
 
   free(buf);
   hash_map_free(map);
