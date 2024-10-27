@@ -1,6 +1,6 @@
 # C Data Structures
 
-Archconvenient generic data structures lib.<br>
+Archconvenient generic data structures lib<br>
 Examples can be found in [test/](https://github.com/romilk-senpai/rcds/tree/master/test)<br>
 Note that sometimes type of items should be specified explicitly
 
@@ -18,6 +18,7 @@ make testc
 
 ## Vector
 
+Definition
 ```c
 typedef struct {
   size_t element_size;
@@ -39,9 +40,9 @@ typedef struct {
   ```c
   vector_add(v, 777);
   ```
-* vector_get(v, type, index)
+* (typeof(type)) vector_get(v, type, index)
   ```c
-  vector_get(v, int, 1); // type is specified explicitly
+  int item = vector_get(v, int, 1); // type is specified explicitly
   ```
 * vector_insert_at(v, index, item)
   ```c
@@ -57,3 +58,74 @@ typedef struct {
   ```
 
 ## Hash map
+Library does not provide hash any functions, you have to pass hashing functor when creating a map
+
+Definition
+
+```c
+typedef struct {
+  size_t size;
+  size_t capacity;
+  key_value_pair **data;
+  hash_provider hash_provider;
+} hash_map;
+```
+
+```c
+typedef struct key_value_pair {
+  void *key;
+  void *value;
+  struct key_value_pair *next;
+} key_value_pair;
+```
+
+Fucntors signatures
+```c
+typedef uint32_t (*hash_provider)(void *);
+typedef void (*map_for_each_func)(key_value_pair *value);
+```
+
+* hash_map *hash_map_create(hash_provider) 
+  ```c
+  uint32_t my_hash_func(void *key) { return 777; }
+
+  hash_map *map = hash_map_create(my_hash_func);
+  ```
+
+* hash_map *hash_map_create_cap(capacity, hash_provider)
+  ```c
+  uint32_t my_hash_func(void *key) { return 777; }
+
+  hash_map *map = hash_map_create_cap(1000, my_hash_func);
+  ```
+
+* hash_map_set(map, key_obj, item)
+  ```c
+  hash_map_set(map, "my_key", 777);
+  ```
+
+* (typeof(type)) hash_map_get(map, val_type, key_obj)
+  ```c
+  int value = hash_map_get(map, int, "my_key");
+  ```
+
+* int hash_map_contains(map, key_obj)
+  ```c
+  if (hash_map_contains(map, key_obj) == 1) {
+    printf("%s", "victory");
+  }
+  ```
+
+* hash_map_for_each(map, for_each_func)
+  ```c
+  void print_map_kvp(key_value_pair *kvp) {
+    printf("%s: %d\n", (char *)kvp->key, *(int *)kvp->value);
+  }
+
+  hash_map_for_each(map, print_map_kvp);
+  ```
+
+* hash_map_free(map)
+  ```c
+  hash_map_free(map);
+  ```
