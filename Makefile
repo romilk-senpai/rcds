@@ -19,7 +19,6 @@ testc:
 	$(COMPILER) -g test/map_test.c -Ilibrcds/include -Llibrcds -lrcds -o out/test/map_test
 	./out/test/vector_test
 	yes | cp -rf test/map_test_set1.txt out/test/map_test_set1.txt
-	yes | cp -rf test/map_test_set2.txt out/test/map_test_set2.txt
 	./out/test/map_test
 
 clean:
