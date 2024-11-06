@@ -92,7 +92,7 @@ void read_set1() {
     printf("%s: %d\n", "watermelon", val); // expect 3
   }
 
-  printf("-------------");
+  printf("-------------\n");
 
   hash_map_for_each(map, print_map_kvp);
 
