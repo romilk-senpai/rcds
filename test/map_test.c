@@ -29,8 +29,8 @@ uint32_t string_hash(void *key) {
   return hash;
 }
 
-void print_map_kvp(key_value_pair *kvp) {
-  printf("%s: %d\n", (char *)kvp->key, *(int *)kvp->value);
+void print_map_kvp(key_value_pair *kvp, void *context) {
+  printf("%d, %s: %d\n", *(int *)context, (char *)kvp->key, *(int *)kvp->value);
 }
 
 void read_set1() {
@@ -94,7 +94,10 @@ void read_set1() {
 
   printf("-------------\n");
 
-  hash_map_for_each(map, print_map_kvp);
+  int *sample_context;
+  *sample_context = 7;
+
+  hash_map_for_each(map, print_map_kvp, sample_context);
 
   printf("Size: %zu; Capacity: %zu\n", map->size,
          map->capacity); // expect 13/20

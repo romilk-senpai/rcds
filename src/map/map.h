@@ -14,7 +14,7 @@ typedef struct key_value_pair {
 } key_value_pair;
 
 typedef uint32_t (*hash_provider)(void *);
-typedef void (*map_for_each_func)(key_value_pair *value);
+typedef void (*map_for_each_func)(key_value_pair *value, void *context);
 
 typedef struct {
   size_t size;
@@ -42,7 +42,7 @@ typedef struct {
 
 #define hash_map_contains(map, key_obj) ({ _hash_map_contains(map, key_obj); })
 
-#define hash_map_for_each(map, for_each_func) ({ _hash_map_for_each(map, for_each_func); })
+#define hash_map_for_each(map, for_each_func, context) ({ _hash_map_for_each(map, for_each_func, context); })
 
 #define hash_map_free(map) ({ _hash_map_free(map); })
 
@@ -51,7 +51,7 @@ void **_hash_map_set(hash_map *map, void *key_obj);
 void *_hash_map_get(hash_map *map, void *key_obj);
 int _hash_map_contains(hash_map *map, void *key_obj);
 void _hash_map_resize(hash_map *map);
-void _hash_map_for_each(hash_map *map, map_for_each_func for_each_func);
+void _hash_map_for_each(hash_map *map, map_for_each_func for_each_func, void *context);
 void _hash_map_free(hash_map *map);
 
 #endif

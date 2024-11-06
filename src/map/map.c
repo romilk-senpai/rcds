@@ -84,11 +84,11 @@ void _hash_map_resize(hash_map *map) {
   map->capacity = new_capacity;
 }
 
-void _hash_map_for_each(hash_map *map, map_for_each_func for_each_func) {
+void _hash_map_for_each(hash_map *map, map_for_each_func for_each_func, void *context) {
   for (size_t i = 0; i < map->capacity; i++) {
     key_value_pair *ptr = *(map->data + i);
     while (ptr != NULL) {
-      for_each_func(ptr);
+      for_each_func(ptr, context);
       ptr = ptr->next;
     }
   }
