@@ -5,12 +5,13 @@
 
 uint32_t string_hash(void *key);
 void read_set1();
-void read_set2();
+void test_ref_type();
 
 int main(void) {
   printf("---map_test---\n");
 
   read_set1();
+  test_ref_type();
 
   printf("---map_test---\n");
   return 0;
@@ -33,8 +34,24 @@ void print_map_kvp(key_value_pair *kvp, void *context) {
   printf("%d, %s: %d\n", *(int *)context, (char *)kvp->key, *(int *)kvp->value);
 }
 
+void print_map_kvp2(key_value_pair *kvp, void *context) {
+  printf("%d: %s\n", *(int *)kvp->key, (char *)kvp->value);
+}
+
+void test_ref_type() {
+  hash_map *map = hash_map_create_cap(10, string_hash);
+
+  for (size_t i = 0; i < 10; i++) {
+    char *c = "hello";
+    int index = i;
+    hash_map_set(map, &index, c);
+  }
+  int ctx = 9;
+  _hash_map_for_each(map, print_map_kvp, NULL);
+}
+
 void read_set1() {
-  hash_map *map = hash_map_create(string_hash);
+  hash_map *map = hash_map_create_cap(1000, string_hash);
 
   FILE *file = fopen("out/test/map_test_set1.txt", "rb");
   if (file == NULL) {
