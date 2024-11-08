@@ -32,9 +32,9 @@ typedef struct {
 
 #define hash_map_set(map, key_obj, item)                                       \
   ({                                                                           \
-    void **ptr = _hash_map_set(map, key_obj);                                  \
-    *ptr = realloc(*ptr, sizeof(typeof(item) *));                              \
-    *(typeof(item) *)(*ptr) = item;                                            \
+    key_value_pair *ptr = _hash_map_set(map, key_obj);                         \
+    ptr->value = realloc(ptr->value, sizeof(typeof(item)));                    \
+    *(typeof(item) *)(ptr->value) = item;                                      \
   })
 
 #define hash_map_get(map, val_type, key_obj)                                   \
@@ -42,16 +42,18 @@ typedef struct {
 
 #define hash_map_contains(map, key_obj) ({ _hash_map_contains(map, key_obj); })
 
-#define hash_map_for_each(map, for_each_func, context) ({ _hash_map_for_each(map, for_each_func, context); })
+#define hash_map_for_each(map, for_each_func, context)                         \
+  ({ _hash_map_for_each(map, for_each_func, context); })
 
 #define hash_map_free(map) ({ _hash_map_free(map); })
 
 hash_map *_hash_map_create(size_t capacity, hash_provider hash_provider);
-void **_hash_map_set(hash_map *map, void *key_obj);
+key_value_pair *_hash_map_set(hash_map *map, void *key_obj);
 void *_hash_map_get(hash_map *map, void *key_obj);
 int _hash_map_contains(hash_map *map, void *key_obj);
 void _hash_map_resize(hash_map *map);
-void _hash_map_for_each(hash_map *map, map_for_each_func for_each_func, void *context);
+void _hash_map_for_each(hash_map *map, map_for_each_func for_each_func,
+                        void *context);
 void _hash_map_free(hash_map *map);
 
 #endif

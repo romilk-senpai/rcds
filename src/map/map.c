@@ -11,7 +11,7 @@ hash_map *_hash_map_create(size_t capacity, hash_provider hash_provider) {
   return map;
 }
 
-void **_hash_map_set(hash_map *map, void *key_obj) {
+key_value_pair *_hash_map_set(hash_map *map, void *key_obj) {
   if ((double)map->size / map->capacity > LOAD_FACTOR_THRESHOLD) {
     _hash_map_resize(map);
   }
@@ -22,7 +22,7 @@ void **_hash_map_set(hash_map *map, void *key_obj) {
   key_value_pair *ptr = *(map->data + index);
   while (ptr != NULL) {
     if (map->hash_provider(ptr->key) == map->hash_provider(key_obj)) {
-      return &(ptr)->value;
+      return ptr;
     }
     ptr = ptr->next;
   }
@@ -34,7 +34,7 @@ void **_hash_map_set(hash_map *map, void *key_obj) {
   *(map->data + index) = new_pair;
   map->size++;
 
-  return &new_pair->value;
+  return new_pair;
 }
 
 void *_hash_map_get(hash_map *map, void *key_obj) {

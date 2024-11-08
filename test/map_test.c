@@ -35,19 +35,26 @@ void print_map_kvp(key_value_pair *kvp, void *context) {
 }
 
 void print_map_kvp2(key_value_pair *kvp, void *context) {
-  printf("%d: %s\n", *(int *)kvp->key, (char *)kvp->value);
+  printf("%d:%s\n", *(int *)kvp->key, *(char **)kvp->value);
 }
 
 void test_ref_type() {
   hash_map *map = hash_map_create_cap(10, string_hash);
 
-  for (size_t i = 0; i < 10; i++) {
-    char *c = "hello";
-    int index = i;
-    hash_map_set(map, &index, c);
-  }
+  char *c1 = "hello1";
+  char *c2 = "hello2";
+  char *c3 = "hello3";
+
+  int i1 = 1;
+  int i2 = 2;
+  int i3 = 3;
+
+  hash_map_set(map, &i1, c1);
+  hash_map_set(map, &i2, c2);
+  hash_map_set(map, &i3, c3);
+
   int ctx = 9;
-  _hash_map_for_each(map, print_map_kvp, NULL);
+  _hash_map_for_each(map, print_map_kvp2, &ctx);
 }
 
 void read_set1() {
