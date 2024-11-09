@@ -101,17 +101,17 @@ typedef void (*map_for_each_func)(key_value_pair *value);
 
 * hash_map_set(map, key_obj, item)
   ```c
-  hash_map_set(map, "my_key", 777);
+  hash_map_set(map, "my_key", "my_value");
   ```
 
 * (typeof(type)) hash_map_get(map, val_type, key_obj)
   ```c
-  int value = hash_map_get(map, int, "my_key");
+  char* value = (char *)hash_map_get(map, "my_key");
   ```
 
 * int hash_map_contains(map, key_obj)
   ```c
-  if (hash_map_contains(map, key_obj) == 1) {
+  if (hash_map_contains(map, "my_key") == 1) {
     printf("%s", "victory");
   }
   ```
