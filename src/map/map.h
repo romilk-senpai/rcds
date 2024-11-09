@@ -23,37 +23,15 @@ typedef struct {
   hash_provider hash_provider;
 } hash_map;
 
-#define hash_map_create(hash_provider)                                         \
-  ({ _hash_map_create(MAP_INITIAL_CAPACITY, hash_provider); })
-
-// pass capacity%2 == 0 pws
-#define hash_map_create_cap(capacity, hash_provider)                           \
-  ({ _hash_map_create(capacity, hash_provider); })
-
-#define hash_map_set(map, key_obj, item)                                       \
-  ({                                                                           \
-    key_value_pair *ptr = _hash_map_set(map, key_obj);                         \
-    ptr->value = realloc(ptr->value, sizeof(typeof(item)));                    \
-    *(typeof(item) *)(ptr->value) = item;                                      \
-  })
-
-#define hash_map_get(map, val_type, key_obj)                                   \
-  ({ *(val_type *)_hash_map_get(map, key_obj); })
-
-#define hash_map_contains(map, key_obj) ({ _hash_map_contains(map, key_obj); })
-
-#define hash_map_for_each(map, for_each_func, context)                         \
-  ({ _hash_map_for_each(map, for_each_func, context); })
-
-#define hash_map_free(map) ({ _hash_map_free(map); })
-
-hash_map *_hash_map_create(size_t capacity, hash_provider hash_provider);
-key_value_pair *_hash_map_set(hash_map *map, void *key_obj);
-void *_hash_map_get(hash_map *map, void *key_obj);
-int _hash_map_contains(hash_map *map, void *key_obj);
-void _hash_map_resize(hash_map *map);
-void _hash_map_for_each(hash_map *map, map_for_each_func for_each_func,
-                        void *context);
-void _hash_map_free(hash_map *map);
+hash_map *hash_map_create(hash_provider hash_provider);
+hash_map *hash_map_create_cap(size_t capacity, hash_provider hash_provider);
+static hash_map *_hash_map_create(size_t capacity, hash_provider hash_provider);
+void hash_map_set(hash_map *map, void *key_obj, void *item);
+void *hash_map_get(hash_map *map, void *key_obj);
+int hash_map_contains(hash_map *map, void *key_obj);
+static void hash_map_resize(hash_map *map);
+void hash_map_for_each(hash_map *map, map_for_each_func for_each_func,
+                       void *context);
+void hash_map_free(hash_map *map);
 
 #endif

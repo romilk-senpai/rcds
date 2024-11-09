@@ -1,8 +1,23 @@
 #include "map.h"
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-hash_map *_hash_map_create(size_t capacity, hash_provider hash_provider) {
+hash_map *hash_map_create(hash_provider hash_provider) {
+  return _hash_map_create(MAP_INITIAL_CAPACITY, hash_provider);
+}
+
+hash_map *hash_map_create_cap(size_t capacity, hash_provider hash_provider) {
+  return _hash_map_create(capacity, hash_provider);
+}
+
+static hash_map *_hash_map_create(size_t capacity,
+                                  hash_provider hash_provider) {
+  size_t cap = capacity;
+  if (cap % 2 == 1) {
+    cap++;
+  }
+
   hash_map *map = malloc(sizeof(hash_map));
   map->size = 0;
   map->capacity = capacity;
@@ -11,9 +26,9 @@ hash_map *_hash_map_create(size_t capacity, hash_provider hash_provider) {
   return map;
 }
 
-key_value_pair *_hash_map_set(hash_map *map, void *key_obj) {
+void hash_map_set(hash_map *map, void *key_obj, void *item) {
   if ((double)map->size / map->capacity > LOAD_FACTOR_THRESHOLD) {
-    _hash_map_resize(map);
+    hash_map_resize(map);
   }
 
   uint32_t hash = map->hash_provider(key_obj);
@@ -22,22 +37,22 @@ key_value_pair *_hash_map_set(hash_map *map, void *key_obj) {
   key_value_pair *ptr = *(map->data + index);
   while (ptr != NULL) {
     if (map->hash_provider(ptr->key) == map->hash_provider(key_obj)) {
-      return ptr;
+      free(ptr->value);
+      ptr->value = item;
+      return;
     }
     ptr = ptr->next;
   }
 
   key_value_pair *new_pair = malloc(sizeof(key_value_pair));
   new_pair->key = key_obj;
-  new_pair->value = NULL;
+  new_pair->value = item;
   new_pair->next = *(map->data + index);
   *(map->data + index) = new_pair;
   map->size++;
-
-  return new_pair;
 }
 
-void *_hash_map_get(hash_map *map, void *key_obj) {
+void *hash_map_get(hash_map *map, void *key_obj) {
   uint32_t hash = map->hash_provider(key_obj);
   size_t index = hash & (map->capacity - 1);
 
@@ -52,11 +67,11 @@ void *_hash_map_get(hash_map *map, void *key_obj) {
   return NULL;
 }
 
-int _hash_map_contains(hash_map *map, void *key_obj) {
-  return _hash_map_get(map, key_obj) != NULL;
+int hash_map_contains(hash_map *map, void *key_obj) {
+  return hash_map_get(map, key_obj) != NULL;
 }
 
-void _hash_map_resize(hash_map *map) {
+static void hash_map_resize(hash_map *map) {
   size_t new_capacity = map->capacity * 2;
 
   key_value_pair **new_data = calloc(new_capacity, sizeof(key_value_pair *));
@@ -84,7 +99,8 @@ void _hash_map_resize(hash_map *map) {
   map->capacity = new_capacity;
 }
 
-void _hash_map_for_each(hash_map *map, map_for_each_func for_each_func, void *context) {
+void hash_map_for_each(hash_map *map, map_for_each_func for_each_func,
+                       void *context) {
   for (size_t i = 0; i < map->capacity; i++) {
     key_value_pair *ptr = *(map->data + i);
     while (ptr != NULL) {
@@ -94,7 +110,7 @@ void _hash_map_for_each(hash_map *map, map_for_each_func for_each_func, void *co
   }
 }
 
-void _hash_map_free(hash_map *map) {
+void hash_map_free(hash_map *map) {
   for (size_t i = 0; i < map->capacity; i++) {
     key_value_pair *current = map->data[i];
     while (current != NULL) {
