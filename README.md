@@ -1,8 +1,6 @@
 # C Data Structures
 
-Archconvenient generic data structures lib<br>
 Examples can be found in [test/](https://github.com/romilk-senpai/rcds/tree/master/test)<br>
-Note that sometimes type of items should be specified explicitly
 
 * vector ✅
 * hash map ✅
