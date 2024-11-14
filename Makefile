@@ -7,8 +7,8 @@ static:
 	$(COMPILER) -c src/vector/vector.c -o out/vector.o -fPIC
 	$(COMPILER) -c src/map/map.c -o out/map.o -fPIC
 	ar rcs librcds/lib/librcds.a out/vector.o out/map.o
-	yes | cp -rf src/vector/vector.h librcds/include/vector.h
-	yes | cp -rf src/map/map.h librcds/include/map.h
+	cp -rf src/vector/vector.h librcds/include/vector.h
+	cp -rf src/map/map.h librcds/include/map.h
 
 static-wasm:
 	mkdir -p out/
@@ -17,8 +17,8 @@ static-wasm:
 	emcc -c src/vector/vector.c -o out/vector.o -fPIC
 	emcc -c src/map/map.c -o out/map.o -fPIC
 	ar rcs librcds-wasm/lib/librcds.a out/vector.o out/map.o
-	yes | cp -rf src/vector/vector.h librcds-wasm/include/vector.h
-	yes | cp -rf src/map/map.h librcds-wasm/include/map.h
+	cp -rf src/vector/vector.h librcds-wasm/include/vector.h
+	cp -rf src/map/map.h librcds-wasm/include/map.h
 
 testc:
 	make clean
@@ -27,7 +27,7 @@ testc:
 	$(COMPILER) -g test/vector_test.c -Ilibrcds/include -Llibrcds/lib -lrcds -o out/test/vector_test
 	$(COMPILER) -g test/map_test.c -Ilibrcds/include -Llibrcds/lib -lrcds -o out/test/map_test
 	./out/test/vector_test
-	yes | cp -rf test/map_test_set1.txt out/test/map_test_set1.txt
+	cp -rf test/map_test_set1.txt out/test/map_test_set1.txt
 	./out/test/map_test
 
 clean:
