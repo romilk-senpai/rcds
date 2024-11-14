@@ -4,11 +4,21 @@ static:
 	mkdir -p out/
 	mkdir -p librcds/include/
 	mkdir -p librcds/lib/
-	$(COMPILER) -c src/vector/vector.c -o out/vector.o
-	$(COMPILER) -c src/map/map.c -o out/map.o
+	$(COMPILER) -c src/vector/vector.c -o out/vector.o -fPIC
+	$(COMPILER) -c src/map/map.c -o out/map.o -fPIC
 	ar rcs librcds/lib/librcds.a out/vector.o out/map.o
 	yes | cp -rf src/vector/vector.h librcds/include/vector.h
 	yes | cp -rf src/map/map.h librcds/include/map.h
+
+static-wasm:
+	mkdir -p out/
+	mkdir -p librcds-wasm/include/
+	mkdir -p librcds-wasm/lib/
+	emcc -c src/vector/vector.c -o out/vector.o -fPIC
+	emcc -c src/map/map.c -o out/map.o -fPIC
+	ar rcs librcds-wasm/lib/librcds.a out/vector.o out/map.o
+	yes | cp -rf src/vector/vector.h librcds-wasm/include/vector.h
+	yes | cp -rf src/map/map.h librcds-wasm/include/map.h
 
 testc:
 	make clean
