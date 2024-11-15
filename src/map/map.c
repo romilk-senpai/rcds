@@ -127,8 +127,9 @@ void hash_map_for_each(hash_map *map, map_for_each_func for_each_func,
   for (size_t i = 0; i < map->capacity; i++) {
     key_value_pair *ptr = *(map->data + i);
     while (ptr != NULL) {
+      key_value_pair *next_ptr = ptr->next;
       for_each_func(ptr, context);
-      ptr = ptr->next;
+      ptr = next_ptr;
     }
   }
 }

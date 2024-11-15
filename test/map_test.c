@@ -1,6 +1,5 @@
 #include "map.h"
 #include <stdio.h>
-#include <stdlib.h>
 
 uint32_t string_hash(void *key);
 void test_ref_type();
