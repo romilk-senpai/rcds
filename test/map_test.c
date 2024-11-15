@@ -1,5 +1,6 @@
 #include "map.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 uint32_t string_hash(void *key);
 void test_ref_type();
@@ -48,5 +49,11 @@ void test_ref_type() {
   int ctx = 9;
   hash_map_for_each(map, print_map_kvp2, &ctx);
 
+  hash_map_delete(map, &i2);
+
+  hash_map_for_each(map, print_map_kvp2, &ctx);
+
   printf("Element at %d, %s\n", i1, (char *)hash_map_get(map, &i1));
+
+  hash_map_free(map);
 }

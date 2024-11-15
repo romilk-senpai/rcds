@@ -28,6 +28,7 @@ hash_map *hash_map_create_cap(size_t capacity, hash_provider hash_provider);
 static hash_map *_hash_map_create(size_t capacity, hash_provider hash_provider);
 void hash_map_set(hash_map *map, void *key_obj, void *item);
 void *hash_map_get(hash_map *map, void *key_obj);
+void hash_map_delete(hash_map *map, void *key_obj);
 int hash_map_contains(hash_map *map, void *key_obj);
 static void hash_map_resize(hash_map *map);
 void hash_map_for_each(hash_map *map, map_for_each_func for_each_func,

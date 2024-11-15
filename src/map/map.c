@@ -36,7 +36,7 @@ void hash_map_set(hash_map *map, void *key_obj, void *item) {
 
   key_value_pair *ptr = *(map->data + index);
   while (ptr != NULL) {
-    if (map->hash_provider(ptr->key) == map->hash_provider(key_obj)) {
+    if (map->hash_provider(ptr->key) == hash) {
       free(ptr->value);
       ptr->value = item;
       return;
@@ -58,13 +58,36 @@ void *hash_map_get(hash_map *map, void *key_obj) {
 
   key_value_pair *ptr = map->data[index];
   while (ptr != NULL) {
-    if (map->hash_provider(ptr->key) == map->hash_provider(key_obj)) {
+    if (map->hash_provider(ptr->key) == hash) {
       return ptr->value;
     }
     ptr = ptr->next;
   }
 
   return NULL;
+}
+
+void hash_map_delete(hash_map *map, void *key_obj) {
+  uint32_t hash = map->hash_provider(key_obj);
+  size_t index = hash & (map->capacity - 1);
+
+  key_value_pair *prev = NULL;
+  key_value_pair *current = map->data[index];
+
+  while (current != NULL) {
+    if (map->hash_provider(current->key) == hash) {
+      if (prev == NULL) {
+        map->data[index] = current->next;
+      } else {
+        prev->next = current->next;
+      }
+      free(current);
+      map->size--;
+      return;
+    }
+    prev = current;
+    current = current->next;
+  }
 }
 
 int hash_map_contains(hash_map *map, void *key_obj) {
